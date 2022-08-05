@@ -1,0 +1,184 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #f0f0f0;
+}
+$mainFont: 'Gilroy';
+
+.global__wrapper {
+  background: linear-gradient(135deg, #100b25, #05040c);
+}
+.container {
+  max-width: 1140px;
+  padding: 0 10px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.page__title {
+  font-family: $mainFont;
+  font-size: 40px;
+  color: #f0f0f0;
+  font-weight: 700;
+  padding: 20px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.step {
+  &_title {
+    font-size: 35px;
+    color: #f0f0f0;
+    font-family: $mainFont;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  &_note {
+    font-family: $mainFont;
+    font-weight: 400;
+    color: #f0f0f0;
+    padding: 20px 0;
+  }
+  &_btn {
+    display: inline-block;
+
+    padding: 8px 40px;
+    border-radius: 5px;
+    background: #f0f0f0;
+    color: #100b25;
+    font-family: $mainFont;
+    font-weight: 600;
+    font-size: 25px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.15s;
+    &:hover {
+      text-decoration: underline;
+    }
+    &-back {
+      margin-right: 10px;
+      background: rgb(129, 129, 129);
+    }
+  }
+  &_wrapper {
+    padding: 100px 0;
+  }
+  &_player {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    &.active {
+      display: flex;
+      animation: appear 0.3s ease-in-out;
+    }
+    &_card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &_wrapper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 50px;
+    }
+    &_label {
+      font-family: $mainFont;
+      font-size: 18px;
+      font-weight: 500;
+      color: #f0f0f0;
+      margin-bottom: 5px;
+    }
+    &_input {
+      font-family: $mainFont;
+      font-size: 20px;
+      font-weight: 500;
+      height: 30px;
+      border: 1px gray solid;
+      outline: none;
+      padding: 0 10px;
+      border-radius: 5px;
+    }
+  }
+
+  &_items {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    &.active {
+      display: flex;
+      animation: appear 0.3s ease-in-out;
+    }
+    &_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    &-range {
+      width: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      font-family: $mainFont;
+      color: #f0f0f0;
+
+      margin-right: 35px;
+      & > div {
+        display: flex;
+        align-items: center;
+      }
+      &_currentvalue {
+        margin-left: 10px;
+      }
+    }
+  }
+  &_results {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    &.active {
+      display: flex;
+      animation: appear 0.3s ease-in-out;
+    }
+
+    &_wrapper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+    &_card {
+      padding: 20px;
+      font-family: $mainFont;
+      color: #f0f0f0;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      &_name {
+        font-size: 25px;
+        margin-bottom: 10px;
+      }
+      &_items {
+        &_img {
+          width: 50px;
+          height: 50px;
+        }
+        &-common {
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}

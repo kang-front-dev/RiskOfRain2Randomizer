@@ -1,0 +1,20 @@
+.icon-car::before{
+  content: '\f5e4';
+
+}
+.icon-car::after{
+  content: '\10f5e4';
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
+.icon-car{
+  position: relative;
+}
+.icon-trash::before{
+  content: '\f2ed';
+}
+.icon-times::before{
+  content: '\f00d';
+}
