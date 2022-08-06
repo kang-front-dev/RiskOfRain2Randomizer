@@ -91,45 +91,75 @@ export class App {
 
     stepResults.classList.add('active');
 
-    if (this.player1Name) {
-      stepResultsWrapper.append(
-        generateCard(
-          this.player1Name,
-          this.commonAmount,
-          this.rareAmount,
-          this.legendaryAmount
-        )
-      );
-    }
-    if (this.player2Name) {
-      stepResultsWrapper.append(
-        generateCard(
-          this.player2Name,
-          this.commonAmount,
-          this.rareAmount,
-          this.legendaryAmount
-        )
-      );
-    }
-    if (this.player3Name) {
-      stepResultsWrapper.append(
-        generateCard(
-          this.player3Name,
-          this.commonAmount,
-          this.rareAmount,
-          this.legendaryAmount
-        )
-      );
-    }
-    if (this.player4Name) {
-      stepResultsWrapper.append(
-        generateCard(
-          this.player4Name,
-          this.commonAmount,
-          this.rareAmount,
-          this.legendaryAmount
-        )
-      );
+    const btnReroll = document.createElement('div');
+    btnReroll.className = 'step_btn';
+    btnReroll.id = 'btn-results-reroll';
+    btnReroll.textContent = 'Reroll';
+    stepResults.append(btnReroll);
+
+
+    
+    const data = {
+      player1Name: this.player1Name,
+      player2Name: this.player2Name,
+      player3Name: this.player3Name,
+      player4Name: this.player4Name,
+      commonAmount: this.commonAmount,
+      rareAmount: this.rareAmount,
+      legendaryAmount: this.legendaryAmount,
+    };
+    roll(data);
+
+    btnReroll.addEventListener('click', () => {
+      const cards = document.querySelectorAll('.step_results_card');
+      cards.forEach((item) => {
+        item.remove();
+      });
+      roll(data);
+
+    });
+
+    function roll(data) {
+      if (data.player1Name) {
+        stepResultsWrapper.append(
+          generateCard(
+            data.player1Name,
+            data.commonAmount,
+            data.rareAmount,
+            data.legendaryAmount
+          )
+        );
+      }
+      if (data.player2Name) {
+        stepResultsWrapper.append(
+          generateCard(
+            data.player2Name,
+            data.commonAmount,
+            data.rareAmount,
+            data.legendaryAmount
+          )
+        );
+      }
+      if (data.player3Name) {
+        stepResultsWrapper.append(
+          generateCard(
+            data.player3Name,
+            data.commonAmount,
+            data.rareAmount,
+            data.legendaryAmount
+          )
+        );
+      }
+      if (data.player4Name) {
+        stepResultsWrapper.append(
+          generateCard(
+            data.player4Name,
+            data.commonAmount,
+            data.rareAmount,
+            data.legendaryAmount
+          )
+        );
+      }
     }
 
     function generateCard(player, common, rare, legendary) {
@@ -145,52 +175,63 @@ export class App {
       name.textContent = player;
       card.append(name);
 
+      function generateItems(amount, type: string, itemsMax, itemsArr, parent) {
+        if (amount > 0) {
+          const randomNum = randomNumberExc(1, itemsMax, itemsArr);
+          itemsArr.push(randomNum);
+          const imgWrapper = document.createElement('div')
+          imgWrapper.className = 'step_results_card_items_img-wrapper'
+
+          const itemImg = document.createElement('img');
+          itemImg.src = `./assets/items img/${type}/${type} (${randomNum}).jpg`;
+          itemImg.className = 'step_results_card_items_img';
+          imgWrapper.append(itemImg);
+          parent.append(imgWrapper);
+
+          generateItems(amount - 1, type, itemsMax, itemsArr, parent);
+        }
+      }
+
       const commonItems = document.createElement('div');
       commonItems.className = 'step_results_card_common';
       card.append(commonItems);
 
-      let commonItemsArr = [];
+      const commonItemsArr = [];
 
-      for (let i = 0; i < Number(common); i++) {
-        let randomNum = randomNumberExc(1, commonMax, commonItemsArr);
-        commonItemsArr.push(randomNum);
-        const itemImg = document.createElement('img');
-        itemImg.src = `./assets/items img/common/common (${randomNum}).jpg`;
-        itemImg.className = 'step_results_card_items_img';
-
-        commonItems.append(itemImg);
-      }
+      generateItems(common, 'common', commonMax, commonItemsArr, commonItems);
 
       const rareItems = document.createElement('div');
       rareItems.className = 'step_results_card_rare';
       card.append(rareItems);
 
-      let rareItemsArr = [];
+      const rareItemsArr = [];
 
-      for (let i = 0; i < Number(rare); i++) {
-        let randomNum = randomNumberExc(1, rareMax, rareItemsArr);
-        rareItemsArr.push(randomNum);
-        const itemImg = document.createElement('img');
-        itemImg.src = `./assets/items img/rare/rare (${randomNum}).jpg`;
-        itemImg.className = 'step_results_card_items_img';
-
-        rareItems.append(itemImg);
-      }
+      generateItems(rare, 'rare', rareMax, rareItemsArr, rareItems);
 
       const legendaryItems = document.createElement('div');
       legendaryItems.className = 'step_results_card_rare';
       card.append(legendaryItems);
 
-      let legendaryItemsArr = [];
+      const legendaryItemsArr = [];
 
-      for (let i = 0; i < Number(legendary); i++) {
-        let randomNum = randomNumberExc(1, legendaryMax, legendaryItemsArr);
-        legendaryItemsArr.push(randomNum);
-        const itemImg = document.createElement('img');
-        itemImg.src = `./assets/items img/legendary/legendary (${randomNum}).jpg`;
-        itemImg.className = 'step_results_card_items_img';
+      generateItems(
+        legendary,
+        'legendary',
+        legendaryMax,
+        legendaryItemsArr,
+        legendaryItems
+      );
 
-        legendaryItems.append(itemImg);
+      const allItems = card.querySelectorAll('.step_results_card_items_img')
+      animateItems(0)
+      function animateItems(amount){
+
+        if(amount < allItems.length){
+          allItems[amount].classList.add('active')
+          setTimeout(() => {
+            animateItems(amount + 1)
+          }, 50);
+        }
       }
 
       return card;
