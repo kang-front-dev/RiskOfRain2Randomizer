@@ -4,23 +4,32 @@ export class App {
   private player3Name;
   private player4Name;
 
+  private commonMax;
+  private rareMax;
+  private legendaryMax;
+  private goldMax;
+  private equipMax;
+  private voidMax;
+
   private commonAmount;
   private rareAmount;
   private legendaryAmount;
+  private goldAmount;
+  private equipAmount;
+  private voidAmount;
 
   private stepPlayer;
   private stepItems;
-  constructor() {}
   init() {
     this.showStepPlayer();
   }
   showStepPlayer() {
-    const stepPlayer = document.querySelector('.step_player');
+    const stepPlayer = document.querySelector('.step_player') as HTMLElement;
     stepPlayer.classList.add('active');
-    const player1Input = document.querySelector('#player-1');
-    const player2Input = document.querySelector('#player-2');
-    const player3Input = document.querySelector('#player-3');
-    const player4Input = document.querySelector('#player-4');
+    const player1Input = document.querySelector('#player-1') as HTMLInputElement;
+    const player2Input = document.querySelector('#player-2') as HTMLInputElement;
+    const player3Input = document.querySelector('#player-3') as HTMLInputElement;
+    const player4Input = document.querySelector('#player-4') as HTMLInputElement;
     player1Input.addEventListener('input', () => {
       this.player1Name = (player1Input as HTMLInputElement).value;
     });
@@ -34,24 +43,60 @@ export class App {
       this.player4Name = (player4Input as HTMLInputElement).value;
     });
 
-    const btnNext = document.querySelector('#btn-player-next');
+    const btnNext = document.querySelector('#btn-player-next') as HTMLElement;
     btnNext.addEventListener('click', () => {
       stepPlayer.classList.remove('active');
       this.showStepItems();
     });
   }
   showStepItems() {
-    const stepItems = document.querySelector('.step_items');
+    const stepItems = document.querySelector('.step_items') as HTMLElement;
     stepItems.classList.add('active');
-    const commonItemsInput = document.querySelector('#items-common');
-    const rareItemsInput = document.querySelector('#items-rare');
-    const legendaryItemsInput = document.querySelector('#items-legendary');
 
-    const commonAmountIndicator = document.querySelector('#items-common-value');
-    const rareAmountIndicator = document.querySelector('#items-rare-value');
+    this.commonMax = 29;
+    this.rareMax = 29;
+    this.legendaryMax = 27;
+    this.goldMax = 14;
+    this.equipMax = 25;
+    this.voidMax = 14;
+
+    const commonItemsInput = document.querySelector('#items-common') as HTMLInputElement;
+    const rareItemsInput = document.querySelector('#items-rare') as HTMLInputElement;
+    const legendaryItemsInput = document.querySelector('#items-legendary') as HTMLInputElement;
+    const goldItemsInput = document.querySelector('#items-gold') as HTMLInputElement;
+    const equipItemsInput = document.querySelector('#items-equip') as HTMLInputElement;
+    const voidItemsInput = document.querySelector('#items-void') as HTMLInputElement;
+
+    commonItemsInput.max = this.commonMax;
+    rareItemsInput.max = this.rareMax;
+    legendaryItemsInput.max = this.legendaryMax;
+    goldItemsInput.max = this.goldMax;
+    equipItemsInput.max = this.equipMax;
+    voidItemsInput.max = this.voidMax;
+
+    const commonAmountIndicator = document.querySelector('#items-common-value') as HTMLInputElement;
+    const rareAmountIndicator = document.querySelector('#items-rare-value') as HTMLInputElement;
     const legendaryAmountIndicator = document.querySelector(
       '#items-legendary-value'
-    );
+    ) as HTMLInputElement;
+    const goldAmountIndicator = document.querySelector(
+      '#items-gold-value'
+    ) as HTMLInputElement;
+    const equipAmountIndicator = document.querySelector(
+      '#items-equip-value'
+    ) as HTMLInputElement;
+    const voidAmountIndicator = document.querySelector(
+      '#items-void-value'
+    ) as HTMLInputElement;
+
+
+
+    this.commonAmount = 1;
+    this.rareAmount = 1;
+    this.legendaryAmount = 1;
+    this.goldAmount = 1;
+    this.equipAmount = 1;
+    this.voidAmount = 1;
 
     commonItemsInput.addEventListener('input', () => {
       this.commonAmount = (commonItemsInput as HTMLInputElement).value;
@@ -71,9 +116,27 @@ export class App {
         legendaryItemsInput as HTMLInputElement
       ).value;
     });
+    goldItemsInput.addEventListener('input', () => {
+      this.goldAmount = (goldItemsInput as HTMLInputElement).value;
+      goldAmountIndicator.textContent = (
+        goldItemsInput as HTMLInputElement
+      ).value;
+    });
+    equipItemsInput.addEventListener('input', () => {
+      this.equipAmount = (equipItemsInput as HTMLInputElement).value;
+      equipAmountIndicator.textContent = (
+        equipItemsInput as HTMLInputElement
+      ).value;
+    });
+    voidItemsInput.addEventListener('input', () => {
+      this.voidAmount = (voidItemsInput as HTMLInputElement).value;
+      voidAmountIndicator.textContent = (
+        voidItemsInput as HTMLInputElement
+      ).value;
+    });
 
-    const btnBack = document.querySelector('#btn-items-back');
-    const btnNext = document.querySelector('#btn-items-next');
+    const btnBack = document.querySelector('#btn-items-back') as HTMLElement;
+    const btnNext = document.querySelector('#btn-items-next') as HTMLElement;
     btnBack.addEventListener('click', () => {
       stepItems.classList.remove('active');
       this.showStepPlayer();
@@ -84,7 +147,7 @@ export class App {
     });
   }
   showResults() {
-    const stepResults = document.querySelector('.step_results');
+    const stepResults = document.querySelector('.step_results')  as HTMLElement;
     const stepResultsWrapper = document.createElement('div');
     stepResultsWrapper.className = 'step_results_wrapper';
     stepResults.append(stepResultsWrapper);
@@ -107,6 +170,9 @@ export class App {
       commonAmount: this.commonAmount,
       rareAmount: this.rareAmount,
       legendaryAmount: this.legendaryAmount,
+      goldAmount: this.goldAmount,
+      equipAmount: this.equipAmount,
+      voidAmount: this.voidAmount,
     };
     roll(data);
 
@@ -126,7 +192,10 @@ export class App {
             data.player1Name,
             data.commonAmount,
             data.rareAmount,
-            data.legendaryAmount
+            data.legendaryAmount,
+            data.goldAmount,
+            data.equipAmount,
+            data.voidAmount
           )
         );
       }
@@ -136,7 +205,10 @@ export class App {
             data.player2Name,
             data.commonAmount,
             data.rareAmount,
-            data.legendaryAmount
+            data.legendaryAmount,
+            data.goldAmount,
+            data.equipAmount,
+            data.voidAmount
           )
         );
       }
@@ -146,7 +218,10 @@ export class App {
             data.player3Name,
             data.commonAmount,
             data.rareAmount,
-            data.legendaryAmount
+            data.legendaryAmount,
+            data.goldAmount,
+            data.equipAmount,
+            data.voidAmount
           )
         );
       }
@@ -156,16 +231,23 @@ export class App {
             data.player4Name,
             data.commonAmount,
             data.rareAmount,
-            data.legendaryAmount
+            data.legendaryAmount,
+            data.goldAmount,
+            data.equipAmount,
+            data.voidAmount
           )
         );
       }
     }
 
-    function generateCard(player, common, rare, legendary) {
+    function generateCard(player, common, rare, legendary, gold, equip, voidItems) {
+
       const commonMax = 29;
       const rareMax = 29;
       const legendaryMax = 27;
+      const goldMax = 14;
+      const equipMax = 25;
+      const voidMax = 14;
 
       const card = document.createElement('div');
       card.className = 'step_results_card';
@@ -183,7 +265,11 @@ export class App {
           imgWrapper.className = 'step_results_card_items_img-wrapper'
 
           const itemImg = document.createElement('img');
-          itemImg.src = `./assets/items img/${type}/${type} (${randomNum}).jpg`;
+          if(type === "gold" || type === "equip" || type === "void"){
+            itemImg.src = `./assets/items img/${type}/${type} (${randomNum}).png`;
+          }else{
+            itemImg.src = `./assets/items img/${type}/${type} (${randomNum}).jpg`;
+          }
           itemImg.className = 'step_results_card_items_img';
           imgWrapper.append(itemImg);
           parent.append(imgWrapper);
@@ -209,7 +295,7 @@ export class App {
       generateItems(rare, 'rare', rareMax, rareItemsArr, rareItems);
 
       const legendaryItems = document.createElement('div');
-      legendaryItems.className = 'step_results_card_rare';
+      legendaryItems.className = 'step_results_card_legendary';
       card.append(legendaryItems);
 
       const legendaryItemsArr = [];
@@ -222,10 +308,51 @@ export class App {
         legendaryItems
       );
 
+      const goldItems = document.createElement('div');
+      goldItems.className = 'step_results_card_gold';
+      card.append(goldItems);
+
+      const goldItemsArr = [];
+
+      generateItems(
+        gold,
+        'gold',
+        goldMax,
+        goldItemsArr,
+        goldItems
+      );
+
+      const equipItems = document.createElement('div');
+      equipItems.className = 'step_results_card_equip';
+      card.append(equipItems);
+
+      const equipItemsArr = [];
+
+      generateItems(
+        equip,
+        'equip',
+        equipMax,
+        equipItemsArr,
+        equipItems
+      );
+
+      const voidItemsEl = document.createElement('div');
+      voidItemsEl.className = 'step_results_card_void';
+      card.append(voidItemsEl);
+
+      const voidItemsArr = [];
+
+      generateItems(
+        voidItems,
+        'void',
+        voidMax,
+        voidItemsArr,
+        voidItemsEl
+      );
+
       const allItems = card.querySelectorAll('.step_results_card_items_img')
       animateItems(0)
       function animateItems(amount){
-
         if(amount < allItems.length){
           allItems[amount].classList.add('active')
           setTimeout(() => {
@@ -240,8 +367,8 @@ export class App {
 }
 
 function randomNumberExc(min, max, exc) {
-  console.log('exc: ' + exc);
-  let result = Math.floor(Math.random() * (max - min) + min);
+
+  const result = Math.floor(Math.random() * (max - min) + min);
   let repeating = false;
 
   exc.forEach((num) => {
